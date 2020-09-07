@@ -9,25 +9,25 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Users Model
+ * Admins Model
  *
- * @method \App\Model\Entity\User newEmptyEntity()
- * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
- * @method \App\Model\Entity\User findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\User[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Admin newEmptyEntity()
+ * @method \App\Model\Entity\Admin newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Admin[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Admin get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Admin findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Admin patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Admin[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Admin|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Admin saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Admin[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Admin[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Admin[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Admin[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class UsersTable extends Table
+class AdminsTable extends Table
 {
     /**
      * Initialize method
@@ -39,7 +39,7 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('users');
+        $this->setTable('admins');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
@@ -64,8 +64,9 @@ class UsersTable extends Table
             ->notEmptyString('uuid');
 
         $validator
-            ->email('email')
-            ->allowEmptyString('email');
+            ->scalar('login')
+            ->maxLength('login', 255)
+            ->allowEmptyString('login');
 
         $validator
             ->scalar('password')
@@ -82,17 +83,13 @@ class UsersTable extends Table
             ->allowEmptyString('active');
 
         $validator
-            ->boolean('email_verified')
-            ->allowEmptyString('email_verified');
-
-        $validator
-            ->dateTime('email_verified_at')
-            ->allowEmptyDateTime('email_verified_at');
-
-        $validator
             ->scalar('remember_me_token')
             ->maxLength('remember_me_token', 255)
             ->allowEmptyString('remember_me_token');
+
+        $validator
+            ->dateTime('last_logged_in')
+            ->allowEmptyDateTime('last_logged_in');
 
         return $validator;
     }
@@ -106,7 +103,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
+        $rules->add($rules->isUnique(['login']), ['errorField' => 'login']);
 
         return $rules;
     }

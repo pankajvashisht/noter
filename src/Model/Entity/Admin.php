@@ -3,24 +3,25 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 
 /**
- * User Entity
+ * Admin Entity
  *
  * @property int $id
  * @property string $uuid
- * @property string|null $email
+ * @property string|null $login
  * @property string|null $password
  * @property string|null $name
  * @property bool|null $active
- * @property bool|null $email_verified
- * @property \Cake\I18n\FrozenTime|null $email_verified_at
  * @property string|null $remember_me_token
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property FrozenTime|null $last_logged_in
+ * @property FrozenTime|null $created
+ * @property FrozenTime|null $modified
  */
-class User extends Entity
+class Admin extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -33,13 +34,12 @@ class User extends Entity
      */
     protected $_accessible = [
         'uuid' => true,
-        'email' => true,
+        'login' => true,
         'password' => true,
         'name' => true,
         'active' => true,
-        'email_verified' => true,
-        'email_verified_at' => true,
         'remember_me_token' => true,
+        'last_logged_in' => true,
         'created' => true,
         'modified' => true,
     ];
@@ -52,4 +52,10 @@ class User extends Entity
     protected $_hidden = [
         'password',
     ];
+
+    protected function _setPassword(string $password)
+    {
+        $hasher = new DefaultPasswordHasher();
+        return $hasher->hash($password);
+    }
 }

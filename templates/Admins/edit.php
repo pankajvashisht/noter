@@ -1,30 +1,34 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
+ * @var \App\Model\Entity\Admin $admin
  */
 ?>
 <div class="row">
     <aside class="column">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Form->postLink(
+                __('Delete'),
+                ['action' => 'delete', $admin->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $admin->id), 'class' => 'side-nav-item']
+            ) ?>
+            <?= $this->Html->link(__('List Admins'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <div class="column-responsive column-80">
-        <div class="users form content">
-            <?= $this->Form->create($user) ?>
+        <div class="admins form content">
+            <?= $this->Form->create($admin) ?>
             <fieldset>
-                <legend><?= __('Add User') ?></legend>
+                <legend><?= __('Edit Admin') ?></legend>
                 <?php
                     echo $this->Form->control('uuid');
-                    echo $this->Form->control('email');
+                    echo $this->Form->control('login');
                     echo $this->Form->control('password');
                     echo $this->Form->control('name');
                     echo $this->Form->control('active');
-                    echo $this->Form->control('email_verified');
-                    echo $this->Form->control('email_verified_at', ['empty' => true]);
                     echo $this->Form->control('remember_me_token');
+                    echo $this->Form->control('last_logged_in', ['empty' => true]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

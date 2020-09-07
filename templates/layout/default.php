@@ -42,7 +42,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
         <div class="top-nav-links">
             <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/4/">API</a>
+            <?php
+            if ($this->Identity->isLoggedIn()) {
+                echo $this->Html->link(
+                    'Logout',
+                    '/admins/logout'
+                );
+            } else {
+                echo $this->Html->link(
+                    'Login',
+                    '/admins/login'
+                );
+            }
+            ?>
         </div>
     </nav>
     <main class="main">

@@ -2,7 +2,8 @@
 declare(strict_types=1);
 
 use Migrations\AbstractSeed;
-
+use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\Utility\Text;
 /**
  * Admins seed.
  */
@@ -20,11 +21,12 @@ class AdminsSeed extends AbstractSeed
      */
     public function run()
     {
+        $hasher = new DefaultPasswordHasher();
         $data = [
             [
-                'uuid' => 'seeded-admin-one',
+                'uuid' => Text::uuid(),
                 'login' => 'admin-one',
-                'password' => sha1('adminone'),
+                'password' => $hasher->hash('adminone'),
                 'name' => 'JD Singh',
                 'active' => '1',
                 'remember_me_token' => '',
