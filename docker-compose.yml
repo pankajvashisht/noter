@@ -1,0 +1,45 @@
+version: "3"
+services:
+  lara20:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      #args:
+        #BUILD: 'local'
+    image: lara2020:1
+    ports:
+      - 8080:80
+    volumes:
+      - .:/var/www/html
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    environment:
+      APP_DEBUG: 'true'
+      APP_KEY: base64:joUD24iQhw/uWEWR002FPF/QJrmL2NuNj3JKS0v9Hvc=
+      DATABASE_URL: mysql://devuser:devpass@122.22.1.2/lara2020
+    networks:
+      lara2020_net:
+        ipv4_address: 122.22.1.1
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: lara2020
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    ports:
+      - 9906:3306
+    networks:
+      lara2020_net:
+        ipv4_address: 122.22.1.2
+volumes:
+  db_data: {}
+networks:
+  lara2020_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 122.22.0.0/16
