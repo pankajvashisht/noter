@@ -15,6 +15,8 @@ class AddGenderToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('gender')->default('m')->index();
+            $table->foreignId('project_id')->nullable()->default(null)->constrained()->nullOnDelete();
+            $table->foreignId('company_id')->nullable()->default(null)->constrained()->nullOnDelete();
             $table->tinyInteger('active')->default(1)->index();
         });
     }
