@@ -31,6 +31,8 @@ class AddGenderToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('gender');
             $table->dropColumn('active');
+            $table->dropForeign('project_id');
+            $table->dropForeign('company_id');
         });
     }
 }
