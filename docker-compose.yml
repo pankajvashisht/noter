@@ -17,6 +17,7 @@ services:
       - mysql
     environment:
       APP_DEBUG: 'true'
+      APP_ENV: 'local'
       APP_KEY: base64:joUD24iQhw/uWEWR002FPF/QJrmL2NuNj3JKS0v9Hvc=
       DATABASE_URL: mysql://devuser:devpass@144.44.1.2/gql20
     networks:
