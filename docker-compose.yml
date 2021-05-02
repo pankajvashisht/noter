@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        BUILD: local
         PORT: 80
     ports:
       - 8080:80
