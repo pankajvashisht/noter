@@ -27,14 +27,14 @@ RUN a2enmod ssl
 # Setup Apache2 HTTPS env
 RUN a2ensite default-ssl.conf
 
-RUN if [ "$BUILD" = "local" ] ; then vendor/bin/phpunit ; else vendor/bin/phpunit ; fi
-
-RUN if [ "$BUILD" = "local" ] ; then npm install && npm run watch ; else npm install && npm run prod ; fi
 
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else touch storage/database.sqlite ; fi
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else php artisan migrate --env=testing --database=sqlite --force ; fi
 
+RUN if [ "$BUILD" = "local" ] ; then ls -al ; else rm -rf venfor ; fi
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --no-dev --prefer-dist ; fi
+
+RUN if [ "$BUILD" = "local" ] ; then npm install && npm run watch ; else npm install && npm run prod ; fi
 
 ## Disabled following when running locally (keep it enabled for GCP Cloud Run)
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf ; fi
