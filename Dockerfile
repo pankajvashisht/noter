@@ -31,8 +31,8 @@ RUN if [ "$BUILD" = "local" ] ; then vendor/bin/phpunit ; else vendor/bin/phpuni
 
 RUN if [ "$BUILD" = "local" ] ; then npm install && npm run watch ; else npm install && npm run prod ; fi
 
-RUN if [ "$BUILD" = "local" ] ; then ls -al ; else touch storage/testing.sqlite ; fi
-RUN if [ "$BUILD" = "local" ] ; then ls -al ; else php artisan migrate --env=testing --database=sqlite_testing --force ; fi
+RUN if [ "$BUILD" = "local" ] ; then ls -al ; else touch storage/database.sqlite ; fi
+RUN if [ "$BUILD" = "local" ] ; then ls -al ; else php artisan migrate --env=testing --database=sqlite --force ; fi
 
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --no-dev --prefer-dist ; fi
 
