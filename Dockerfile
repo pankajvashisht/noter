@@ -1,5 +1,8 @@
 FROM jdecode/php8-my-pg-node
 
+ARG BUILD
+ENV BUILD=${BUILD}
+
 # Make "public" the webroot for Laravel
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
@@ -7,6 +10,8 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 # Copy files inside the container
 COPY . .
+
+RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --no-dev --prefer-dist ; fi
 
 RUN chmod -R 0777 storage bootstrap
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
@@ -21,9 +26,6 @@ RUN mv docker-ssl.key /etc/ssl/private/ssl-cert-snakeoil.key
 RUN a2enmod ssl
 # Setup Apache2 HTTPS env
 RUN a2ensite default-ssl.conf
-
-ARG BUILD
-ENV BUILD=${BUILD}
 
 ## Disabled following when running locally (keep it enabled for GCP Cloud Run)
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf ; fi
