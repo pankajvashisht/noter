@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/noter
+    docker:
+      - image: jdecode/php8-my-pg-node
+      - image: postgres:13.1-alpine
+        environment:
+          POSTGRES_PASSWORD: postgres
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run:
+          name: Install Composer
+          command: |
+            composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run:
+         name: Run test-cases
+         command: vendor/bin/phpunit
+
+workflows:
+  version: 2
+  validate-and-deploy:
+    jobs:
+      - build:
+          branches:
+            only: laravel-on-clouds
