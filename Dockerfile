@@ -11,7 +11,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # Copy files inside the container
 COPY . .
 
-RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --no-dev --prefer-dist ; fi
+RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --prefer-dist ; fi
 
 RUN chmod -R 0777 storage bootstrap
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
