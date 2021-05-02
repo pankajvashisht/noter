@@ -24,9 +24,8 @@ jobs:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
-      - run:
-         name: Run test-cases
-         command: vendor/bin/phpunit
+      - run: touch storage/testing.sqlite
+      - run: php artisan migrate --env=testing --database=sqlite_testing --force
 
 workflows:
   version: 2
