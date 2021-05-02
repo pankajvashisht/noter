@@ -4,9 +4,12 @@ jobs:
     working_directory: ~/noter
     docker:
       - image: jdecode/php8-my-pg-node
-      - image: postgres:13.1-alpine
+      - image: mysql:latest
         environment:
-          POSTGRES_PASSWORD: postgres
+          MYSQL_ROOT_PASSWORD: docker
+          MYSQL_DATABASE: noter
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
     steps:
       - checkout
       - restore_cache:
