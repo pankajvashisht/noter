@@ -31,5 +31,9 @@ RUN if [ "$BUILD" = "local" ] ; then vendor/bin/phpunit ; else vendor/bin/phpuni
 
 RUN if [ "$BUILD" = "local" ] ; then npm install && npm run watch ; else npm install && npm run prod ; fi
 
+RUN if [ "$BUILD" = "local" ] ; then ls -al ; else rm -rf vendor ; fi
+
+RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --no-dev --prefer-dist ; fi
+
 ## Disabled following when running locally (keep it enabled for GCP Cloud Run)
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf ; fi
