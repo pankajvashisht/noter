@@ -33,5 +33,6 @@ workflows:
   validate-and-deploy:
     jobs:
       - build:
-          branches:
-            only: laravel-on-clouds
+          filters:
+            branches:
+              only: laravel-on-clouds
