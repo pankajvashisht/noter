@@ -21,4 +21,5 @@ RUN chmod -R 0777 storage bootstrap
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN touch storage/database.sqlite
 RUN php artisan migrate --env=testing --database=sqlite --force
-RUN php artisan test --stop-on-error --stop-on-failure
+#RUN php artisan test --stop-on-error --stop-on-failure
+RUN vendor/bin/phpunit --stop-on-error --stop-on-failure
