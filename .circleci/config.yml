@@ -26,6 +26,7 @@ jobs:
             - vendor
       - run: touch storage/database.sqlite
       - run: php artisan migrate --env=testing --database=sqlite --force
+      - run: php artisan test --stop-on-error --stop-on-failure
 
 workflows:
   version: 2
