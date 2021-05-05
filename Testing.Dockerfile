@@ -11,7 +11,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 # Copy files inside the container
-COPY composer* ./
+COPY . .
 RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --prefer-dist ; fi
 
 RUN if [ "$BUILD" = "local" ] ; then rm -rf vendor node_modules ; else echo "vendor and node_modules not on GCP" ; fi
