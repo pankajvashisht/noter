@@ -1,0 +1,47 @@
+steps:
+  # Run tests
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_CLOUD_RUN_SERVICE}:testing', '.', '--file Testing.Dockerfile']
+  # build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_CLOUD_RUN_SERVICE}:${SHORT_SHA}', '.']
+    # push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/${_CLOUD_RUN_SERVICE}:${SHORT_SHA}']
+    # Deploy container image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+        'beta',
+        'run',
+        'deploy',
+        '--allow-unauthenticated',
+        '${_CLOUD_RUN_SERVICE}',
+        '--image',
+        'gcr.io/$PROJECT_ID/${_CLOUD_RUN_SERVICE}:${SHORT_SHA}',
+        '--region',
+        'europe-west2',
+        '--platform',
+        'managed',
+        '--memory',
+        '256Mi',
+        '--update-env-vars',
+        'APP_DEBUG=${_APP_DEBUG},
+        APP_ENV=${_APP_ENV},
+        APP_KEY=${_APP_KEY},
+        QUEUE_CONNECTION=${_QUEUE_CONNECTION},
+        DATABASE_URL=${_DATABASE_URL},
+        GOOGLE_CLOUD_PROJECT=${PROJECT_ID}'
+    ]
+images:
+  - gcr.io/$PROJECT_ID/${_CLOUD_RUN_SERVICE}:${SHORT_SHA}
+
+options:
+  substitution_option: 'ALLOW_LOOSE'
+
+substitutions:
+  _APP_DEBUG: 'false'
+  _APP_ENV: 'prod'
+  _APP_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  _QUEUE_CONNECTION: 'database'
+  _CLOUD_RUN_SERVICE: 'laravel-on-clouds'
+  _DATABASE_URL: 'postgres://user:password@mysql/noter'
