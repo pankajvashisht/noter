@@ -26,6 +26,9 @@ jobs:
             - vendor
       - run: touch database/sqlite
       - run: php artisan cache:clear
+      - run: cat .env.testing | grep APP_KEY
+      - run: php artisan key:generate --env=testing
+      - run: cat .env.testing | grep APP_KEY
       - run: php artisan migrate --env=testing --database=sqlite --force
       - run: php artisan test --stop-on-error --stop-on-failure
 
