@@ -25,6 +25,7 @@ jobs:
           paths:
             - vendor
       - run: touch database/sqlite
+      - run: php artisan cache:clear
       - run: php artisan migrate --env=testing --database=sqlite --force
       - run: php artisan test --stop-on-error --stop-on-failure
 
