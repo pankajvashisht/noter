@@ -48,7 +48,7 @@
                         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                     </div>
                     <div class="text-center text-sm text-gray-500">
-                        Heroku + GCP : @php echo date('Y-m-d H:i'); @endphp
+                        Heroku/GCP : @php echo date('Y-m-d H:i'); @endphp
                     </div>
                 </div>
             </div>
