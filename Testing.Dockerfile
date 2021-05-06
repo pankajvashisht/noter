@@ -22,6 +22,7 @@ RUN touch database/sqlite
 # If GCP (non-local), run composer install (with "dev" dependencies)
 RUN if [ "$BUILD" = "local" ] ; then echo "This is local build!" ; else composer install -n --prefer-dist ; fi
 
+RUN php artisan cache:clear
 RUN php artisan migrate --env=testing --database=sqlite --force
 RUN php artisan key:generate --env=testing
 RUN vendor/bin/phpunit --stop-on-error --stop-on-failure
