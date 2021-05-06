@@ -24,7 +24,7 @@ jobs:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
-      - run: touch storage/database.sqlite
+      - run: touch database/sqlite
       - run: php artisan migrate --env=testing --database=sqlite --force
       - run: php artisan test --stop-on-error --stop-on-failure
 
