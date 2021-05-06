@@ -1,5 +1,5 @@
 steps:
-  # Run tests
+  # Run Laravel tests
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_CLOUD_RUN_SERVICE}:testing', '.', '--file', 'Testing.Dockerfile']
   # build the container image

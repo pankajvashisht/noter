@@ -1,4 +1,6 @@
 Dockerfile
 docker-compose.yml
 docker-compose.override.yml
-
+Testing.Dockerfile
+node_modules
+vendor

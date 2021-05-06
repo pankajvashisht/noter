@@ -12,14 +12,16 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 # Copy files inside the container
 COPY . .
-RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --prefer-dist ; fi
 
-RUN if [ "$BUILD" = "local" ] ; then rm -rf vendor node_modules ; else echo "vendor and node_modules not on GCP" ; fi
-
-COPY . .
-RUN chmod -R 0777 storage bootstrap
+# Make these folders writable, and update permissions
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
-RUN touch storage/database.sqlite
+RUN chmod -R 0777 storage bootstrap database
+RUN chown -R www-data:www-data storage/ bootstrap/ database/
+RUN touch database/sqlite
+
+# If GCP (non-local), run composer install (with "dev" dependencies)
+RUN if [ "$BUILD" = "local" ] ; then echo "This is local build!" ; else composer install -n --prefer-dist ; fi
+
 RUN php artisan migrate --env=testing --database=sqlite --force
-#RUN php artisan test --stop-on-error --stop-on-failure
+RUN php artisan key:generate --env=testing
 RUN vendor/bin/phpunit --stop-on-error --stop-on-failure
