@@ -43,5 +43,5 @@ substitutions:
   _APP_ENV: 'prod'
   _APP_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   _QUEUE_CONNECTION: 'database'
-  _CLOUD_RUN_SERVICE: 'laravel-on-clouds'
+  _CLOUD_RUN_SERVICE: 'laravel-gcp'
   _DATABASE_URL: 'postgres://user:password@mysql/noter'
