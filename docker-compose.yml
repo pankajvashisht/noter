@@ -17,7 +17,7 @@ services:
     environment:
       APP_DEBUG: 'true'
       APP_ENV: 'local'
-      APP_KEY: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      APP_KEY: base64:gBc4PIN9WwpNpX7h1/d2F9i8EBrP8E/lBMeQKyjIebo=
       APP_URL: https://202.105.1.1
       BUILD: local
       DATABASE_URL: mysql://user:password@mysql/noter
