@@ -17,7 +17,6 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN chmod -R 0777 storage bootstrap
 RUN if [ "$BUILD" = "local" ] ; then npm install ; else npm install ; fi
 
-RUN chmod -R 0777 node_modules;
 RUN chmod -R 0777 public;
 RUN if [ "$BUILD" = "local" ] ; then npm run dev ; else npm run prod ; fi
 
