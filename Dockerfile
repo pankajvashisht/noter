@@ -11,13 +11,13 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 COPY . .
-RUN if [ "$BUILD" = "local" ] ; then ls -al ; else composer install -n --no-dev --prefer-dist ; fi
+RUN if [ "$BUILD" = "local" ] ; then composer install ; else composer install -n --no-dev --prefer-dist ; fi
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 RUN chmod -R 0777 storage bootstrap
-RUN if [ "$BUILD" = "local" ] ; then npm install ; else npm install ; fi
-
 RUN chmod -R 0777 public;
+
+RUN npm install
 RUN if [ "$BUILD" = "local" ] ; then npm run dev ; else npm run prod ; fi
 
 ## Disabled following when running locally (keep it enabled for GCP Cloud Run)
