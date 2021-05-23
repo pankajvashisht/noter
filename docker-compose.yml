@@ -1,0 +1,91 @@
+version: "3"
+services:
+  breeze:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD: local
+        PORT: 80
+    ports:
+      - 8086:80
+    volumes:
+    #  - .:/var/www/html
+      - ./app:/var/www/html/app
+      - ./bootstrap:/var/www/html/bootstrap
+      - ./config:/var/www/html/config
+      - ./database:/var/www/html/database
+      - ./public:/var/www/html/public
+      - ./resources:/var/www/html/resources
+      - ./routes:/var/www/html/routes
+      - ./storage:/var/www/html/storage
+      - ./tests:/var/www/html/tests
+      - ./.dockerignore:/var/www/html/.dockerignore
+      - ./.gitignore:/var/www/html/.gitignore
+      - ./artisan:/var/www/html/artisan
+      - ./composer.json:/var/www/html/composer.json
+      - ./composer.lock:/var/www/html/composer.lock
+      - ./docker-compose.yml:/var/www/html/docker-compose.yml
+      - ./docker-compose.override.yml:/var/www/html/docker-compose.override.yml
+      - ./Dockerfile:/var/www/html/Dockerfile
+      - ./package.json:/var/www/html/package.json
+      - ./phpunit.xml:/var/www/html/phpunit.xml
+      - ./server.php:/var/www/html/server.php
+      - ./webpack.mix.js:/var/www/html/webpack.mix.js
+    depends_on:
+      - mysql
+      - mysql_tdd
+    environment:
+      APP_DEBUG: 'true'
+      APP_ENV: 'local'
+      APP_KEY: base64:gBc4PIN9WwpNpX7h1/d2F9i8EBrP8E/lBMeQKyjIebo=
+      APP_URL: https://202.115.1.1
+      BUILD: local
+      DATABASE_URL: mysql://user:password@mysql/breeze
+      DATABASE_URL_TDD: mysql://user:password@mysql_tdd/breeze
+      QUEUE_CONNECTION: database
+      TELESCOPE_URL: mysql://user:password@mysql/breeze
+    networks:
+      breeze_web:
+        ipv4_address: 202.115.1.1
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - 9907:3306
+    volumes:
+      - breeze_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_DATABASE: breeze
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      breeze_web:
+        ipv4_address: 202.115.1.2
+
+  mysql_tdd:
+    image: mysql:latest
+    ports:
+      - 9917:3306
+    volumes:
+      - breeze_data_tdd:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_DATABASE: breeze
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      breeze_web:
+        ipv4_address: 202.115.1.3
+
+
+volumes:
+  breeze_data: { }
+  breeze_data_tdd: { }
+networks:
+  breeze_web:
+    ipam:
+      driver: default
+      config:
+        - subnet: 202.115.0.0/16
