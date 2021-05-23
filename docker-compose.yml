@@ -34,6 +34,7 @@ services:
       - ./webpack.mix.js:/var/www/html/webpack.mix.js
       - ./webpack.config.js:/var/www/html/webpack.config.js
       - ./tailwind.config.js:/var/www/html/tailwind.config.js
+      - ./jsconfig.json:/var/www/html/jsconfig.json
     depends_on:
       - mysql
       - mysql_tdd
