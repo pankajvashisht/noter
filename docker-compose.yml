@@ -32,6 +32,8 @@ services:
       - ./phpunit.xml:/var/www/html/phpunit.xml
       - ./server.php:/var/www/html/server.php
       - ./webpack.mix.js:/var/www/html/webpack.mix.js
+      - ./webpack.config.js:/var/www/html/webpack.config.js
+      - ./tailwind.config.js:/var/www/html/tailwind.config.js
     depends_on:
       - mysql
       - mysql_tdd
