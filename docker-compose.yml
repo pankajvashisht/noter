@@ -24,7 +24,6 @@ services:
       - ./.gitignore:/var/www/html/.gitignore
       - ./artisan:/var/www/html/artisan
       - ./composer.json:/var/www/html/composer.json
-      - ./composer.lock:/var/www/html/composer.lock
       - ./docker-compose.yml:/var/www/html/docker-compose.yml
       - ./docker-compose.override.yml:/var/www/html/docker-compose.override.yml
       - ./Dockerfile:/var/www/html/Dockerfile
