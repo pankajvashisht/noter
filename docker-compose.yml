@@ -10,30 +10,7 @@ services:
     ports:
       - 8086:80
     volumes:
-    #  - .:/var/www/html
-      - ./app:/var/www/html/app
-      - ./bootstrap:/var/www/html/bootstrap
-      - ./config:/var/www/html/config
-      - ./database:/var/www/html/database
-      - ./public:/var/www/html/public
-      - ./resources:/var/www/html/resources
-      - ./routes:/var/www/html/routes
-      - ./storage:/var/www/html/storage
-      - ./tests:/var/www/html/tests
-      - ./.dockerignore:/var/www/html/.dockerignore
-      - ./.gitignore:/var/www/html/.gitignore
-      - ./artisan:/var/www/html/artisan
-      - ./composer.json:/var/www/html/composer.json
-      - ./docker-compose.yml:/var/www/html/docker-compose.yml
-      - ./docker-compose.override.yml:/var/www/html/docker-compose.override.yml
-      - ./Dockerfile:/var/www/html/Dockerfile
-      - ./package.json:/var/www/html/package.json
-      - ./phpunit.xml:/var/www/html/phpunit.xml
-      - ./server.php:/var/www/html/server.php
-      - ./webpack.mix.js:/var/www/html/webpack.mix.js
-      - ./webpack.config.js:/var/www/html/webpack.config.js
-      - ./tailwind.config.js:/var/www/html/tailwind.config.js
-      - ./jsconfig.json:/var/www/html/jsconfig.json
+      - .:/var/www/html
     depends_on:
       - mysql
       - mysql_tdd
