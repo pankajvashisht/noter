@@ -44,6 +44,7 @@ services:
       APP_KEY: base64:gBc4PIN9WwpNpX7h1/d2F9i8EBrP8E/lBMeQKyjIebo=
       APP_URL: https://202.115.1.1
       BUILD: local
+      DB_CONNECTION: mysql
       DATABASE_URL: mysql://user:password@mysql/breeze
       DATABASE_URL_TDD: mysql://user:password@mysql_tdd/breeze
       QUEUE_CONNECTION: database
