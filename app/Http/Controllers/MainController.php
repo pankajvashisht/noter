@@ -24,4 +24,21 @@ class MainController extends Controller
             'companies' => $companies
         ]);
     }
+
+    public function companies(): Response
+    {
+        $companies = [
+            [
+                'id' => 1,
+                'name' => 'Aye'
+            ],
+            [
+                'id' => 2,
+                'name' => 'Bee'
+            ],
+        ];
+        return Inertia::render('Dashboard/Companies', [
+            'companies' => $companies
+        ]);
+    }
 }

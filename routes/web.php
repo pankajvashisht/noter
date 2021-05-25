@@ -29,8 +29,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/main', [MainController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('main');
+Route::middleware(['auth', 'verified'])
+    ->group(function ($route) {
+        $route->get('/main', [MainController::class, 'index'])->name('main');
+        $route->get('/companies', [MainController::class, 'companies'])->name('main.companies');
+    });
 
 require __DIR__.'/auth.php';
