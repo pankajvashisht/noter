@@ -28,19 +28,9 @@ class MainController extends Controller
 
     public function companies(): Response
     {
-        $companies = [
-            [
-                'id' => 1,
-                'name' => 'Aye'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Bee'
-            ],
-        ];
-        $tac = DB::connection(env('DB2_CONNECTION'));
-        $companies = $tac
+        $companies = $this->db2
             ->table('companies')
+            ->limit(10)
             ->get();
         return Inertia::render('Dashboard/Companies', [
             'companies' => $companies

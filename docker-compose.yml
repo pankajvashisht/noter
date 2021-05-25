@@ -13,6 +13,7 @@ services:
       - .:/var/www/html
     depends_on:
       - mysql
+      - pg
       - mysql_tdd
     environment:
       APP_DEBUG: 'true'
@@ -25,6 +26,8 @@ services:
       DATABASE_URL_TDD: mysql://user:password@mysql_tdd/breeze
       QUEUE_CONNECTION: database
       TELESCOPE_URL: mysql://user:password@mysql/breeze
+      DB2_CONNECTION: secondary
+      DATABASE2_URL: postgres://postgres:docker@pg/tacenda
     networks:
       breeze_web:
         ipv4_address: 202.115.1.1
@@ -59,10 +62,24 @@ services:
       breeze_web:
         ipv4_address: 202.115.1.3
 
+  pg:
+    image: postgres:latest
+    ports:
+      - 5433:5432
+    volumes:
+      - tacenda_data:/var/lib/postgres
+      - ./db-dev:/var/lib/postgres/db-dev
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: tacenda
+    networks:
+      breeze_web:
+        ipv4_address: 202.115.1.4
 
 volumes:
   breeze_data: { }
   breeze_data_tdd: { }
+  tacenda_data: { }
 networks:
   breeze_web:
     ipam:
