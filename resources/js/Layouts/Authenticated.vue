@@ -18,9 +18,6 @@
                                 <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </breeze-nav-link>
-                                <breeze-nav-link :href="route('main')" :active="route().current('main')">
-                                    Main
-                                </breeze-nav-link>
                                 <breeze-nav-link :href="route('main.companies')" :active="route().current('main.companies')">
                                     Companies
                                 </breeze-nav-link>
