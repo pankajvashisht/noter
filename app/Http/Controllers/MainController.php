@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -37,6 +38,10 @@ class MainController extends Controller
                 'name' => 'Bee'
             ],
         ];
+        $tac = DB::connection(env('DB2_CONNECTION'));
+        $companies = $tac
+            ->table('companies')
+            ->get();
         return Inertia::render('Dashboard/Companies', [
             'companies' => $companies
         ]);
