@@ -27,7 +27,7 @@ services:
       QUEUE_CONNECTION: database
       TELESCOPE_URL: mysql://user:password@mysql/breeze
       DB2_CONNECTION: secondary
-      DATABASE2_URL: postgres://postgres:docker@pg/tacenda
+      DATABASE2_URL: postgres://postgres:docker@pg/secondary
     networks:
       breeze_web:
         ipv4_address: 202.115.1.1
@@ -71,7 +71,7 @@ services:
       - ./db-dev:/var/lib/postgres/db-dev
     environment:
       POSTGRES_PASSWORD: docker
-      POSTGRES_DB: tacenda
+      POSTGRES_DB: secondary
     networks:
       breeze_web:
         ipv4_address: 202.115.1.4
