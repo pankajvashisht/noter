@@ -30,7 +30,8 @@ class MainController extends Controller
     {
         $companies = $this->db2
             ->table('companies')
-            ->limit(10)
+            ->limit(100)
+            ->orderBy('id')
             ->get();
         return Inertia::render('Dashboard/Companies', [
             'companies' => $companies
