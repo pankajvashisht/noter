@@ -67,7 +67,7 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - tacenda_data:/var/lib/postgres
+      - secondary_data:/var/lib/postgres
       - ./db-dev:/var/lib/postgres/db-dev
     environment:
       POSTGRES_PASSWORD: docker
@@ -79,7 +79,7 @@ services:
 volumes:
   breeze_data: { }
   breeze_data_tdd: { }
-  tacenda_data: { }
+  secondary_data: { }
 networks:
   breeze_web:
     ipam:
