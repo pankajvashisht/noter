@@ -37,15 +37,15 @@ class MainController extends Controller
 //                HAVING COUNT(c.id) > 1
 //                ORDER BY id
 //                    ");
-        $companies = ($this->db2)->table('companies')
-            ->from('companies')
-            ->selectRaw('companies.id, companies.name, COUNT(kpi_opportunities.id) as ocount')
-            ->leftJoin('kpi_opportunities', 'companies.id', '=', 'kpi_opportunities.company_id')
-            ->groupBy('companies.id', 'companies.name')
-            ->havingRaw('COUNT(companies.id) > 1')
-            ->orderBy('companies.id')
-            ->get()
-            ->toArray();
+//        $companies = ($this->db2)->table('companies')
+//            ->from('companies')
+//            ->selectRaw('companies.id, companies.name, COUNT(kpi_opportunities.id) as ocount')
+//            ->leftJoin('kpi_opportunities', 'companies.id', '=', 'kpi_opportunities.company_id')
+//            ->groupBy('companies.id', 'companies.name')
+//            ->havingRaw('COUNT(companies.id) > 1')
+//            ->orderBy('companies.id')
+//            ->get()
+//            ->toArray();
         return Inertia::render('Dashboard/Companies', [
             'companies' => $companies
         ]);
