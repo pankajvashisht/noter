@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Database\Query\Builder;
 use Inertia\Inertia;
 use Inertia\Response;
 
