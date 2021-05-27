@@ -10,9 +10,6 @@
                     Log in
                 </inertia-link>
 
-                <inertia-link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-gray-700 underline">
-                    Register
-                </inertia-link>
             </template>
         </div>
 
