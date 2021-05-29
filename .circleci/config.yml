@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/tacenda-web
     docker:
-      - image: jdecode/php7.4-pg
+      - image: jdecode/php8-my-pg-node:ssl
     steps:
       - checkout
       - restore_cache:
