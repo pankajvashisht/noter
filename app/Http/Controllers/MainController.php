@@ -32,6 +32,7 @@ class MainController extends Controller
         $this->setCompanyOpportunityCount()
             ->makeIdsKeys()
             ->setOpportunityHistoryCount()
+            ->setPersonaCount()
             ->makeInitials();
         return Inertia::render('Dashboard/Companies', [
             'companies' => $this->companies
@@ -78,6 +79,24 @@ class MainController extends Controller
             $companies[$company->id] = $company;
         }
         $this->companies = $companies;
+        return $this;
+    }
+
+    private function setPersonaCount(): self
+    {
+        $personas = $this->db2
+            ->select("
+                SELECT c.id, c.name, COUNT(p.id) as personas
+                FROM kpi_personas p
+                    LEFT JOIN companies as c ON p.company_id = c.id
+                GROUP BY c.id, c.name
+                HAVING COUNT(c.id) > 0
+                    ");
+        array_map(function ($persona) {
+            if(isset($this->companies[$persona->id])) {
+                $this->companies[$persona->id]->personas = $persona->personas;
+            }
+        }, $personas);
         return $this;
     }
 
