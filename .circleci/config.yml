@@ -1,0 +1,27 @@
+version: 2
+notify:
+jobs:
+  build:
+    working_directory: ~/tacenda-web
+    docker:
+      - image: jdecode/php7.4-pg
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run:
+          name: Install Composer
+          command: |
+            composer install -n --prefer-dist --no-dev
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+
+workflows:
+  version: 2
+  validate-and-deploy:
+    jobs:
+      - build
