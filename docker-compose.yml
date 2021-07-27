@@ -1,0 +1,53 @@
+version: "3"
+services:
+  dieter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      #args:
+        #BUILD: local
+#        PORT: 80
+    ports:
+      - 8084:80
+    container_name: noter-inertia-vue-breeze-laravel
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - pg
+    environment:
+      APP_DEBUG: 'true'
+      APP_ENV: 'local'
+      APP_NAME: 'Dieter'
+      APP_KEY: base64:9GCMRgLmCEOMmZJ1qQ/bFJ9M0W4jLFEHHfRhIsab3hI=
+      APP_URL: https://210.72.7.1
+      BUILD: local
+      DB_CONNECTION: pgsql
+      DATABASE_URL: pgsql://postgres:docker@pg:5432/dieter
+      QUEUE_CONNECTION: database
+      TELESCOPE_URL: pgsql://postgres:docker@pg:5432/dieter
+    networks:
+      dieter_web:
+        ipv4_address: 210.72.7.1
+
+  pg:
+    image: postgres:latest
+    ports:
+      - 5434:5432
+    container_name: noter-inertia-vue-breeze-laravel-db
+    volumes:
+      - dieter_data:/var/lib/postgres
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: dieter
+    networks:
+      dieter_web:
+        ipv4_address: 210.72.7.2
+
+volumes:
+  dieter_data: { }
+networks:
+  dieter_web:
+    ipam:
+      driver: default
+      config:
+        - subnet: 210.72.0.0/16
