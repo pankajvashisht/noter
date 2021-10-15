@@ -1,0 +1,48 @@
+version : "3"
+services:
+  deployer-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deployer-api
+    depends_on:
+      - deployer-pg
+    volumes:
+      - .:/var/www/html
+    environment:
+      APP_DEBUG: 'true'
+      APP_NAME: 'Deployer | The one that gets deployed'
+      APP_ENV: 'local'
+      #APP_KEY: ''
+      APP_URL: 'http://210.115.1.1'
+      DB_CONNECTION: 'pgsql'
+      DATABASE_URL: 'pgsql://postgres:docker@deployer-pg:5432/postgres'
+      ROLLBAR_TOKEN: ''
+      SENTRY_DSN: ''
+    networks:
+      deployer-api-network:
+        ipv4_address: 210.115.1.1
+
+  deployer-pg:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: docker
+    container_name: deployer-pg
+    volumes:
+      - deployer-pg-disk:/var/lib/postgres
+    networks:
+      deployer-api-network:
+        ipv4_address: 210.115.1.2
+
+
+# On-disk storage of DB data, when containers are stopped/removed
+volumes:
+  deployer-pg-disk: {}
+
+# Local network for services running using this docker-compose config
+networks:
+  deployer-api-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 210.115.0.0/16
